@@ -11,9 +11,7 @@ public class Principal {
 		System.out.println("2) MedioTiempo");
 		Scanner profesor = new Scanner (System.in);	
 		System.out.println("3) Interino");
-		//System.out.println("Introduzca el numero de horas que trabaja:");
 		int numero = profesor.nextInt();
-		//String numero = profesor.next();
 		profesor.close();
 		
 		Profesor prof = Eleccion.eleccion(numero);
