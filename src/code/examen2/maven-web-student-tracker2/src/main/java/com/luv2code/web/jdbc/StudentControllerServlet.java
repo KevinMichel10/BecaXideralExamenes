@@ -38,17 +38,17 @@ public class StudentControllerServlet extends HttpServlet {
 	}
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		//creacion de un try and catch para evitar excepciones
 		try {
-			// read the "command" parameter
+			// Se lee el parametro command que regresara un null
 			String theCommand = request.getParameter("command");
 			
-			// if the command is missing, then default to listing students
+		//si command se pierde, por default nos regresara lista de estudiantes
 			if (theCommand == null) {
 				theCommand = "LIST";
 			}
 			
-			// route to the appropriate method
+			// Creacion del switch
 			switch (theCommand) {
 			
 			case "LIST":
@@ -76,6 +76,7 @@ public class StudentControllerServlet extends HttpServlet {
 			}
 				
 		}
+
 		catch (Exception exc) {
 			throw new ServletException(exc);
 		}
@@ -85,27 +86,27 @@ public class StudentControllerServlet extends HttpServlet {
 	private void deleteStudent(HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		// read student id from form data
+		//Se lee el id del estudiante que viene del form data
 		String theStudentId = request.getParameter("studentId");
 		
-		// delete student from database
+		// Se elimina estudiante de la base de datos
 		studentDbUtil.deleteStudent(theStudentId);
 		
-		// send them back to "list students" page
+		//Se envia de regreso a la lista
 		listStudents(request, response);
 	}
 
 	private void updateStudent(HttpServletRequest request, HttpServletResponse response)
 		throws Exception {
 
-		// read student info from form data
+		//Se lee el id del estudiante que viene del form data
 		int id = Integer.parseInt(request.getParameter("studentId"));
 		String nombre = request.getParameter("nombre");
 		String apellido = request.getParameter("apellido");
 		String email = request.getParameter("email");
 		String escuela = request.getParameter("escuela");
 		
-		// create a new student object
+		// creacion de un nuevo objeto estudiante
 		Student theStudent = new Student(id, nombre, apellido, email, escuela);
 		
 		// perform update on database
@@ -119,33 +120,33 @@ public class StudentControllerServlet extends HttpServlet {
 	private void loadStudent(HttpServletRequest request, HttpServletResponse response) 
 		throws Exception {
 
-		// read student id from form data
+		// Lee estudiante id de form data
 		String theStudentId = request.getParameter("studentId");
 		
-		// get student from database (db util)
+		// Obtiene estudiante de la base de datos
 		Student theStudent = studentDbUtil.getStudent(theStudentId);
 		
-		// place student in the request attribute
+
+		// se asigna studiante en el atributo request
 		request.setAttribute("THE_STUDENT", theStudent);
 		
-		// send to jsp page: update-student-form.jsp
 		RequestDispatcher dispatcher = 
 				request.getRequestDispatcher("/update-student-form.jsp");
 		dispatcher.forward(request, response);		
 	}
 
 	private void addStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
-
-		// read student info from form data
+		
+		//Se lee la informacion del estudiante de form data
 		String nombre = request.getParameter("nombre");
 		String apellido = request.getParameter("apellido");
 		String email = request.getParameter("email");		
 		String escuela = request.getParameter("escuela");
 		
-		// create a new student object
+		// Creacion de un nuevo objeto estudiante
 		Student theStudent = new Student(nombre, apellido, email, escuela);
 		
-		// add the student to the database
+		// Agregar estudiante a la bd
 		studentDbUtil.addStudent(theStudent);
 				
 		// send back to main page (the student list)
@@ -155,10 +156,11 @@ public class StudentControllerServlet extends HttpServlet {
 	private void listStudents(HttpServletRequest request, HttpServletResponse response) 
 		throws Exception {
 
-		// get students from db util
+		//Obtiene estudiante de db util
 		List<Student> students = studentDbUtil.getStudents();
 		
-		// add students to the request
+
+		//Agrega estudiante de request
 		request.setAttribute("STUDENT_LIST", students);
 				
 		// send to JSP page (view)

@@ -21,7 +21,9 @@ import javax.sql.DataSource;
 public class TestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	// Define datasource/connection pool for Resource Injection
+	
+
+	//Se define el datasource de conexiones para la inyeccion de recursos
 	@Resource(name="jdbc/web_student_tracker")
 	private DataSource dataSource;
 	
@@ -31,18 +33,17 @@ public class TestServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		// Step 1:  Set up the printwriter
+		// Configuracion de impresion
 		PrintWriter out = response.getWriter();
 		response.setContentType("text/plain");
 		
-		// Step 2:  Get a connection to the database
 
-		
+		//Obtiene la conexion de db
 		try(Connection myConn= dataSource.getConnection();
 				Statement myStmt= myConn.createStatement();
 				ResultSet myRs= myStmt.executeQuery("select * from estudiante") ){
 			
-			// Step 5:  Process the result set
+			//Procesa el resultado
 			while (myRs.next()) {
 				String nombre = myRs.getString("nombre");
 				String apellido = myRs.getString("apellido");

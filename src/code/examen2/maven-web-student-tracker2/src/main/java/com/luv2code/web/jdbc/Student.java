@@ -22,7 +22,8 @@ public class Student {
 		this.email = email;
 		this.escuela = escuela;
 	}
-
+	
+	//Generacion de getter y setter 
 	public int getId() {
 		return id;
 	}
